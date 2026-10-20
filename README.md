@@ -14,7 +14,7 @@
 4. Click **Commit changes** and commit to `main`.
 
 At the repository root you should see `index.html`, `app.js`, `styles.css`,
-`settings.js`, `library.js`, `ambience.js`, `questions.json`, `manifest.webmanifest`,
+`navigation.js`, `settings.js`, `library.js`, `ambience.js`, `questions.json`, `manifest.webmanifest`,
 `service-worker.js`, `.nojekyll`, `README.md` and the `assets/` folder.
 No terminal commands, dependencies or build service are needed.
 
@@ -49,10 +49,21 @@ storage from the local Wi-Fi preview; old local history will not transfer.
 ## Updates
 
 Run `python package_web.py` from the project folder after editing the source.
-Upload the new package contents to the same repository and commit. The same
-Pages link will update after deployment. The service worker updates the
-cached app when it is opened online; reopen or refresh if an older version
-is still displayed.
+Extract the new ZIP. In the same repository, choose **Add file → Upload files**,
+drag in all extracted contents (including `assets/`), then **Commit changes** to
+`main`. Files with matching paths are replaced. Check the repository's **Actions**
+tab for the completed Pages deployment. The link and installed app stay the same.
+
+On her phone, open the app online and leave it open briefly to download the update.
+Then fully close it (remove it from recent apps) and reopen it. If she still sees
+the old version, open the same Pages link in her browser and refresh, then reopen
+the installed app. There is currently no update notification or forced reload.
+Updates keep saved history and preferences on the same address and browser;
+uninstalling or clearing site data is unnecessary and can remove local progress.
+
+When editing the code manually, increment the service-worker cache version and
+the changed script/style URL versions in `index.html` and `APP_SHELL` before
+packaging. The supplied update packages already include these version changes.
 
 ## Official instructions
 

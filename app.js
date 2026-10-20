@@ -112,18 +112,38 @@
     if ('vibrate' in navigator) navigator.vibrate(pattern);
   }
 
-  function setRoute(nextRoute, options = {}) {
+  const appRoutes = new Set(['home','history','settings','quiz','result','session-detail']);
+  let navigation;
+
+  function applyNavigation(state) {
+    let nextRoute = appRoutes.has(state.route) ? state.route : 'home';
+    if (nextRoute === 'quiz' && !activeSession) nextRoute = 'home';
+    if (nextRoute === 'result' && lastResult?.id !== state.resultId) lastResult = loadHistory().find(record => record.id === state.resultId) || null;
+    if (nextRoute === 'result' && !lastResult) nextRoute = 'home';
+    if (nextRoute !== state.route) {
+      navigation.navigate({...state,route:nextRoute},{replace:true});
+      return;
+    }
     closeMixPreview();
+    if (nextRoute === 'session-detail' && route !== nextRoute) mistakesOnly = false;
     route = nextRoute;
-    if (nextRoute === 'session-detail') mistakesOnly = false;
-    if (options.detailSessionId !== undefined) detailSessionId = options.detailSessionId;
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    detailSessionId = typeof state.detailSessionId === 'string' ? state.detailSessionId : null;
+    detailReturnRoute = state.detailReturnRoute === 'result' ? 'result' : 'history';
     render();
+    window.scrollTo({top:Number.isFinite(state.scrollY) ? Math.max(0,state.scrollY) : 0,behavior:'instant'});
+  }
+
+  function setRoute(nextRoute, options = {}) {
+    if (!appRoutes.has(nextRoute)) return;
+    if (options.detailSessionId !== undefined) detailSessionId = options.detailSessionId;
+    navigation.navigate({route:nextRoute,detailSessionId,detailReturnRoute,resultId:lastResult?.id || null,scrollY:0},
+      {replace:options.replace === true,root:nextRoute === 'home'});
   }
 
   function setChrome({ nav = true, back = false, subtitleText = '' } = {}) {
     bottomNav.classList.toggle('hidden', !nav);
     backButton.classList.toggle('hidden', !back);
+    document.getElementById('headerBears').classList.toggle('hidden', back);
     subtitle.textContent = displaySubjectName(subtitleText);
     subtitle.classList.toggle('hidden', !subtitleText);
 
@@ -136,16 +156,14 @@
     setChrome({ nav: true, back: false });
     const formats = [
       {id:'all',label:'Sva pitanja'},
-      {id:'recall',label:'Samo pitanja bez ponuđenih odgovora'},
-      {id:'choice',label:'Samo pitanja sa ponuđenim odgovorima'}
+      {id:'recall',label:'Pitanja bez ponuđenih odgovora'},
+      {id:'choice',label:'Pitanja sa ponuđenim odgovorima'}
     ];
     const groups = [{id:'all',name:'Oba predmeta',questions:data.subjects.flatMap(subject => subject.questions)},...data.subjects];
-    const subjectCards = groups.map(subject => `<section class="subject-group ${subject.id === 'all' ? 'combined-group' : ''}" aria-label="${escapeHtml(subject.name)}">${formats.map(format => `
-      <button class="subject-card" data-subject-id="${escapeHtml(subject.id)}" data-question-type="${format.id}" type="button" ${format.id !== 'all' && !subject.questions.some(question => question.type === format.id) ? 'disabled' : ''}>
-        <span class="subject-bubble" aria-hidden="true"></span>
-        <div class="subject-copy"><div class="subject-name">${escapeHtml(subject.name)}</div><div class="subject-meta">${format.label}</div></div>
-        <div class="chevron">${uiIcon('chevron-right')}</div>
-      </button>`).join('')}</section>`).join('');
+    const subjectCards = groups.map(subject => `<section class="subject-group ${subject.id === 'all' ? 'combined-group' : ''}" data-subject-group="${escapeHtml(subject.id)}" aria-label="${escapeHtml(subject.name)}">
+      <div class="subject-group-header"><span class="subject-bubble" aria-hidden="true"></span><h2>${escapeHtml(subject.name)}</h2></div>
+      <div class="subject-options">${formats.map(format => `<button class="subject-option" data-subject-id="${escapeHtml(subject.id)}" data-question-type="${format.id}" type="button" ${format.id !== 'all' && !subject.questions.some(question => question.type === format.id) ? 'disabled' : ''}><span>${format.label}</span>${uiIcon('chevron-right')}</button>`).join('')}</div>
+    </section>`).join('');
 
     app.innerHTML = `
       <div class="library-scene">
@@ -435,7 +453,7 @@
     catch { showToast('Rezultat nije sačuvan. Skladište uređaja nije dostupno.'); }
     lastResult = record;
     activeSession = null;
-    setRoute('result');
+    setRoute('result',{replace:true});
   }
 
   function renderResult() {
@@ -847,17 +865,15 @@
     if (exitDialog.returnValue === 'confirm' && route === 'quiz' && activeSession) finishSession(false);
   });
 
-  backButton.addEventListener('click', () => {
-    if (route === 'quiz') {
-      requestSessionExit();
-      return;
-    }
-    if (route === 'session-detail') {
-      setRoute(detailReturnRoute);
-      return;
-    }
-    setRoute('home');
-  });
+  backButton.addEventListener('click', () => navigation.back());
+
+  navigation = window.createStudyNavigation({onNavigate:applyNavigation,onBack:() => {
+    if (previewTrigger) { closeMixPreview(); return true; }
+    if (exitDialog.open) { exitDialog.close('cancel'); return true; }
+    if (route === 'quiz' && activeSession) { requestSessionExit(); return true; }
+    return false;
+  }});
+  navigation.start({route:'home',detailSessionId:null,detailReturnRoute:'history',resultId:null,scrollY:0});
 
   async function init() {
     try {
