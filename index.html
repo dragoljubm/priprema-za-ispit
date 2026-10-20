@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="sr-Latn">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'self'; media-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0e1915" />
+  <meta name="description" content="Pitanja za stručni ispit." />
+  <title>Priprema za ispit</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./assets/icon-192.png" />
+  <script src="./settings.js?v=43"></script>
+  <link rel="stylesheet" href="./styles.css?v=43" />
+</head>
+<body>
+  <svg class="icon-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><symbol id="ui-check" viewBox="0 0 24 24"><path d="M5 12l4 4L19 6" /></symbol><symbol id="ui-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" /></symbol><symbol id="ui-minus" viewBox="0 0 24 24"><path d="M5 12h14" /></symbol><symbol id="ui-chevron-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></symbol><symbol id="ui-chevron-down" viewBox="0 0 24 24"><path d="M5 9l7 7 7-7" /></symbol><symbol id="ui-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5m7-7-7 7 7 7" /></symbol><symbol id="ui-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7" /></symbol><symbol id="ui-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v11h5v-7h4v7h5V10" /></symbol><symbol id="ui-clock" viewBox="0 0 24 24"><path d="M12 8v4l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0" /></symbol><symbol id="ui-settings" viewBox="0 0 24 24"><path d="M9 3h6l1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1zM16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0" /></symbol><symbol id="ui-play" viewBox="0 0 24 24"><path d="M8 4l12 8-12 8Z" /></symbol><symbol id="ui-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" /></symbol><symbol id="ui-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" /></symbol><symbol id="ui-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" /></symbol></svg>
+  <div class="app-shell">
+    <header class="topbar" id="topbar">
+      <button class="icon-button hidden" id="backButton" type="button" aria-label="Nazad"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#ui-arrow-left"></use></svg></button>
+      <div class="brand-wrap">
+        <img class="brand-mark" src="./assets/bears.webp" alt="" width="64" height="52" />
+        <div>
+          <div class="brand">Priprema za ispit</div>
+          <div class="brand-subtitle hidden" id="headerSubtitle"></div>
+        </div>
+      </div>
+      <div class="topbar-spacer cat-spot" data-cat-spot></div>
+    </header>
+    <div class="library-shelf" aria-hidden="true"><i class="little-book"></i><i class="little-book"></i><i class="little-book"></i><span class="candle left-candle"><i></i></span><span class="candle extra-candle"><i></i></span><span class="shelf-crystals"></span><span class="candle"><i></i></span></div>
+
+    <div class="shelf-cat-spot cat-spot" data-cat-spot></div>
+    <main id="app" class="content" aria-live="polite">
+      <div class="home-loading" aria-hidden="true">
+        <div class="library-scene"><img src="./assets/library-candles.webp" width="1536" height="1024" alt="" fetchpriority="high" /></div>
+        <div class="section-heading"><h1 class="screen-title">Testovi</h1></div>
+        <div class="subject-card simulation-card"><span class="subject-bubble"></span><span class="loading-line"></span></div>
+        <div class="subject-groups"><section class="subject-group combined-group"><div class="subject-card"><span class="subject-bubble"></span><span class="loading-line"></span></div><div class="subject-card"><span class="subject-bubble"></span><span class="loading-line"></span></div><div class="subject-card"><span class="subject-bubble"></span><span class="loading-line"></span></div></section><section class="subject-group"><div class="subject-card"><span class="subject-bubble"></span><span class="loading-line"></span></div><div class="subject-card"><span class="subject-bubble"></span><span class="loading-line"></span></div><div class="subject-card"><span class="subject-bubble"></span><span class="loading-line"></span></div></section><section class="subject-group"><div class="subject-card"><span class="subject-bubble"></span><span class="loading-line"></span></div><div class="subject-card"><span class="subject-bubble"></span><span class="loading-line"></span></div><div class="subject-card"><span class="subject-bubble"></span><span class="loading-line"></span></div></section></div>
+
+      </div>
+    </main>
+    <div class="candle-cluster" aria-hidden="true"><span class="candle"><i></i></span><span class="candle"><i></i></span><span class="candle"><i></i></span></div>
+    <div class="candle-dedication"><span>voim te</span><span class="brand-hearts" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><use href="#ui-heart"></use></svg><svg class="ui-icon" viewBox="0 0 24 24"><use href="#ui-heart"></use></svg></span></div>
+
+    <nav class="bottom-nav" id="bottomNav" aria-label="Glavna navigacija">
+      <button class="nav-item active" data-route="home" type="button">
+        <span class="nav-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#ui-home"></use></svg></span>
+        <span>Testovi</span>
+      </button>
+      <button class="nav-item" data-route="history" type="button">
+        <span class="nav-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#ui-clock"></use></svg></span>
+        <span>Istorija</span>
+      </button>
+      <button class="nav-item" data-route="settings" type="button">
+        <span class="nav-icon"><svg class="ui-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="#ui-settings"></use></svg></span><span>Podešavanja</span>
+      </button>
+    </nav>
+  </div>
+
+  <aside id="mixPreview" class="mix-preview hidden" role="status" aria-live="polite" aria-atomic="true"></aside>
+  <dialog id="exitDialog" class="exit-dialog" aria-labelledby="exitTitle" aria-describedby="exitDescription">
+    <h2 id="exitTitle">Završi test?</h2>
+    <p id="exitDescription">Dosadašnji odgovori ostaju sačuvani.</p>
+    <form method="dialog" class="exit-actions"><button class="primary-button" value="confirm">Završi test</button><button class="secondary-button" value="cancel" autofocus>Nastavi test</button></form>
+  </dialog>
+  <div class="night-light-overlay" aria-hidden="true"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="./ambience.js?v=41" defer></script>
+  <script src="./app.js?v=43" defer></script>
+  <script src="./library.js?v=33" defer></script>
+</body>
+</html>
