@@ -13,8 +13,7 @@
     try { if (!preview) localStorage.setItem(key,'seen'); } catch {}
     document.removeEventListener('visibilitychange',greet);
   }
-  dialog.querySelector('button').addEventListener('click',() => dialog.close());
-  dialog.querySelector('.welcome-message').addEventListener('click',() => {
+  dialog.addEventListener('click',() => {
     if (!dialog.open) return;
     const rect = dialog.getBoundingClientRect();
     const x = rect.left + rect.width/2, y = rect.top + rect.height/2;
@@ -41,7 +40,6 @@
     setTimeout(() => petals.remove(),7500);
     window.studySettings?.play('maya');
   });
-  dialog.addEventListener('click',event => { if (event.target === dialog) dialog.close(); });
   document.addEventListener('visibilitychange',greet);
   greet();
 })();

@@ -78,9 +78,6 @@ button:focus-visible { outline: 3px solid #d5dfb6; outline-offset: 3px; }
 .maya-welcome { position:fixed; inset:0; margin:auto; width:min(340px,calc(100% - 40px)); padding:36px 26px 30px; border:1px solid color-mix(in srgb,var(--accent) 35%,var(--surface)); border-radius:26px; background:radial-gradient(ellipse at 50% 12%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 65%),var(--surface); color:var(--text); box-shadow:0 24px 80px #0008,inset 0 1px 0 color-mix(in srgb,var(--accent) 12%,transparent); text-align:center; }
 .maya-welcome::before { content:''; position:absolute; inset:7px; border:1px solid color-mix(in srgb,var(--accent) 12%,transparent); border-radius:19px; pointer-events:none; }
 .maya-welcome::backdrop { background:rgba(0,0,0,.52); backdrop-filter:blur(3px); }
-.welcome-close { position:absolute; top:12px; right:12px; width:36px; height:36px; background:transparent; box-shadow:none; color:var(--muted); }
-.welcome-close .ui-icon { width:16px; height:16px; }
-.welcome-close:focus-visible { outline:1px solid var(--line); outline-offset:-3px; }
 .welcome-maya { display:flex; justify-content:center; align-items:center; gap:18px; height:96px; color:var(--accent); }
 .welcome-halo { display:grid; place-items:center; width:88px; height:88px; border-radius:50%; background:radial-gradient(circle,color-mix(in srgb,var(--accent) 15%,transparent),transparent 72%); }
 .welcome-maya img { image-rendering:pixelated; animation:welcome-hop 2.8s ease-in-out infinite; }
