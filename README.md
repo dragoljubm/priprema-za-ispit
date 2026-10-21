@@ -14,7 +14,7 @@
 4. Click **Commit changes** and commit to `main`.
 
 At the repository root you should see `index.html`, `app.js`, `styles.css`,
-`navigation.js`, `settings.js`, `library.js`, `ambience.js`, `questions.json`, `manifest.webmanifest`,
+`navigation.js`, `welcome.js`, `settings.js`, `library.js`, `ambience.js`, `questions.json`, `manifest.webmanifest`,
 `service-worker.js`, `.nojekyll`, `README.md` and the `assets/` folder.
 No terminal commands, dependencies or build service are needed.
 

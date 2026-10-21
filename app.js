@@ -868,6 +868,8 @@
   backButton.addEventListener('click', () => navigation.back());
 
   navigation = window.createStudyNavigation({onNavigate:applyNavigation,onBack:() => {
+    const welcome = document.getElementById('mayaWelcome');
+    if (welcome?.open) { welcome.close(); return true; }
     if (previewTrigger) { closeMixPreview(); return true; }
     if (exitDialog.open) { exitDialog.close('cancel'); return true; }
     if (route === 'quiz' && activeSession) { requestSessionExit(); return true; }

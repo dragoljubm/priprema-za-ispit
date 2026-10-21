@@ -75,6 +75,24 @@ button:focus-visible { outline: 3px solid #d5dfb6; outline-offset: 3px; }
 .header-icon-slot { display:grid; place-items:center; flex:0 0 64px; width:64px; height:52px; }
 .header-icon-slot > * { grid-area:1 / 1; }
 .header-icon-slot > .hidden { display:none !important; }
+.maya-welcome { position:fixed; inset:0; margin:auto; width:min(340px,calc(100% - 40px)); padding:36px 26px 30px; border:1px solid color-mix(in srgb,var(--accent) 35%,var(--surface)); border-radius:26px; background:radial-gradient(ellipse at 50% 12%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 65%),var(--surface); color:var(--text); box-shadow:0 24px 80px #0008,inset 0 1px 0 color-mix(in srgb,var(--accent) 12%,transparent); text-align:center; }
+.maya-welcome::before { content:''; position:absolute; inset:7px; border:1px solid color-mix(in srgb,var(--accent) 12%,transparent); border-radius:19px; pointer-events:none; }
+.maya-welcome::backdrop { background:rgba(0,0,0,.52); backdrop-filter:blur(3px); }
+.welcome-close { position:absolute; top:12px; right:12px; width:36px; height:36px; background:transparent; box-shadow:none; color:var(--muted); }
+.welcome-close .ui-icon { width:16px; height:16px; }
+.welcome-close:focus-visible { outline:1px solid var(--line); outline-offset:-3px; }
+.welcome-maya { display:flex; justify-content:center; align-items:center; gap:18px; height:96px; color:var(--accent); }
+.welcome-halo { display:grid; place-items:center; width:88px; height:88px; border-radius:50%; background:radial-gradient(circle,color-mix(in srgb,var(--accent) 15%,transparent),transparent 72%); }
+.welcome-maya img { image-rendering:pixelated; animation:welcome-hop 2.8s ease-in-out infinite; }
+.welcome-spark { font-size:19px; opacity:.55; transform:translateY(10px); }
+.welcome-spark:last-child { font-size:13px; transform:translateY(-12px); }
+.maya-welcome p { margin:14px 0 24px; font-family:inherit; font-size:18px; font-weight:500; font-style:italic; line-height:1.65; color:var(--text); text-wrap:balance; }
+.welcome-hearts { display:flex; justify-content:center; align-items:center; gap:9px; color:var(--accent); }
+.welcome-hearts .ui-icon { width:12px; height:12px; stroke-width:1.4; }
+.welcome-hearts .ui-icon:nth-of-type(2) { width:16px; height:16px; fill:color-mix(in srgb,var(--accent) 15%,transparent); }
+.welcome-hearts > span { width:28px; height:1px; margin:0 3px; background:linear-gradient(90deg,transparent,var(--line)); }
+.welcome-hearts > span:last-child { transform:rotate(180deg); }
+@keyframes welcome-hop { 0%,35%,65%,100% { transform:translateY(0); } 45% { transform:translateY(-7px); } 55% { transform:translateY(-3px); } }
 
 .icon-button {
   border: 0;

@@ -1,10 +1,10 @@
 const CACHE_PREFIX = `study-buddy:${self.registration.scope}:`;
-const CACHE = `${CACHE_PREFIX}v47`;
+const CACHE = `${CACHE_PREFIX}v52`;
 const APP_SHELL = [
   './',
   './index.html',
   './styles.css',
-  './styles.css?v=45',
+  './styles.css?v=52',
   './settings.js?v=43',
   './ambience.js?v=41',
   './assets/audio/lofi-piano.mp3',
@@ -20,7 +20,8 @@ const APP_SHELL = [
   './assets/audio/city.mp3',
   './navigation.js?v=44',
   './app.js',
-  './app.js?v=47',
+  './app.js?v=48',
+  './welcome.js?v=49',
   './library.js?v=33',
   './assets/library-candles.webp',
   './assets/bears.webp',
