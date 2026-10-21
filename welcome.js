@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const key = 'study-buddy-maya-welcome-v1';
+  const key = 'study-buddy-maya-welcome-v2';
   const dialog = document.getElementById('mayaWelcome');
   if (!dialog) return;
   const preview = new URLSearchParams(window.location.search).get('welcome') === 'preview';
