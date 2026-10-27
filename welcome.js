@@ -1,20 +1,32 @@
 (() => {
   'use strict';
-  const key = 'study-buddy-maya-welcome-v2';
+  const key = 'study-buddy-maya-tea-2026-10-27';
   const dialog = document.getElementById('mayaWelcome');
   if (!dialog) return;
   const preview = new URLSearchParams(window.location.search).get('welcome') === 'preview';
   try { if (!preview && localStorage.getItem(key) === 'seen') return; } catch {}
-  let shown = false;
+  const arrivalMs=4300,textMs=800,readingMs=1000;
+  dialog.style.setProperty('--tea-arrival',`${arrivalMs}ms`);
+  dialog.style.setProperty('--tea-text-time',`${textMs}ms`);
+  let shown=false,ready=false,remaining=arrivalMs+textMs+readingMs,deadline=0,unlockTimer;
+  function arm() {
+    deadline=performance.now()+remaining;
+    unlockTimer=setTimeout(()=>{
+      ready=true;
+      dialog.dataset.ready='true';
+      try { if (!preview) localStorage.setItem(key,'seen'); } catch {}
+      document.removeEventListener('visibilitychange',visibility);
+    },remaining);
+  }
   function greet() {
     if (shown || document.hidden) return;
     dialog.showModal();
     shown = true;
-    try { if (!preview) localStorage.setItem(key,'seen'); } catch {}
-    document.removeEventListener('visibilitychange',greet);
+    dialog.dataset.ready='false';
+    arm();
   }
-  dialog.addEventListener('click',() => {
-    if (!dialog.open) return;
+  function dismiss() {
+    if (!dialog.open || !ready) return;
     const rect = dialog.getBoundingClientRect();
     const x = rect.left + rect.width/2, y = rect.top + rect.height/2;
     dialog.close();
@@ -39,7 +51,22 @@
     document.body.append(petals);
     setTimeout(() => petals.remove(),7500);
     window.studySettings?.play('maya');
-  });
-  document.addEventListener('visibilitychange',greet);
+  }
+  function visibility() {
+    if(!shown){greet();return;}
+    if(!dialog.open || ready)return;
+    if(document.hidden) {
+      remaining=Math.max(0,deadline-performance.now());
+      clearTimeout(unlockTimer);
+      dialog.classList.add('welcome-paused');
+    } else {
+      dialog.classList.remove('welcome-paused');
+      arm();
+    }
+  }
+  window.studyWelcome={dismiss};
+  dialog.addEventListener('click',dismiss);
+  dialog.addEventListener('cancel',event=>{event.preventDefault();dismiss();});
+  document.addEventListener('visibilitychange',visibility);
   greet();
 })();

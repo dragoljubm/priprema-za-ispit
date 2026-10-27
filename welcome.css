@@ -1,0 +1,26 @@
+.tea-welcome { padding:25px 26px 30px; --tea-arrival:4300ms; --tea-text-time:800ms; }
+.tea-welcome:focus { outline:none; }
+.tea-welcome .welcome-message { margin:16px 0 0; cursor:inherit; animation:tea-welcome-message var(--tea-text-time) var(--tea-arrival) both ease-out; }
+.tea-welcome[data-ready=true] { cursor:pointer; }
+.tea-welcome-scene { position:relative; height:205px; perspective:650px; pointer-events:none; }
+.tea-welcome-door { position:absolute; width:104px; height:140px; left:calc(50% - 52px); top:0; border:1px solid color-mix(in srgb,var(--accent) 18%,transparent); border-bottom:0; border-radius:60px 60px 0 0; background:radial-gradient(ellipse at top,color-mix(in srgb,var(--accent) 7%,transparent),transparent); }
+.tea-welcome-door::before { content:''; position:absolute; width:6px; height:6px; left:48px; top:17px; background:var(--accent); clip-path:polygon(50% 0,64% 36%,100% 50%,64% 64%,50% 100%,36% 64%,0 50%,36% 36%); opacity:.5; }
+.tea-welcome-path { position:absolute; width:44px; height:100px; left:calc(50% - 22px); top:67px; transform:perspective(150px) rotateX(25deg); }
+.tea-welcome-path i { position:absolute; width:4px; height:4px; border-radius:50%; background:var(--accent); opacity:.12; }
+.tea-welcome-path i:nth-child(1) { left:8px; top:0; }.tea-welcome-path i:nth-child(2) { right:8px; top:25px; }.tea-welcome-path i:nth-child(3) { left:2px; top:55px; }.tea-welcome-path i:nth-child(4) { right:0; top:89px; }
+.tea-welcome-courier { position:absolute; width:210px; height:170px; left:calc(50% - 105px); top:0; transform-origin:50% 90%; animation:tea-welcome-approach var(--tea-arrival) cubic-bezier(.2,.5,.3,1) both; }
+.tea-welcome-maya { position:absolute; left:61px; top:10px; width:88px; height:88px; image-rendering:pixelated; animation:tea-welcome-steps calc(var(--tea-arrival) / 13) 13 alternate ease-in-out; }
+.tea-welcome-cup { position:absolute; left:73px; top:76px; width:63px; height:60px; animation:tea-welcome-settle 700ms var(--tea-arrival) both; }
+.tea-welcome-cup > img { position:relative; width:63px; height:45px; image-rendering:pixelated; filter:drop-shadow(0 6px 5px #0004); z-index:2; }
+.tea-welcome-steam { position:absolute; left:23px; top:-4px; width:20px; height:23px; z-index:3; }
+.tea-welcome-steam i { position:absolute; bottom:0; left:0; width:5px; height:14px; border-left:2px solid var(--accent); border-top:2px solid var(--accent); border-radius:5px 0 0 0; opacity:0; animation:tea-welcome-steam 3100ms var(--tea-arrival) ease-in-out infinite; }
+.tea-welcome-steam i:nth-child(2) { left:7px; height:19px; animation-delay:calc(var(--tea-arrival) + 950ms); }
+.tea-welcome-steam i:nth-child(3) { left:14px; height:12px; animation-delay:calc(var(--tea-arrival) + 1900ms); }
+.tea-welcome-shadow { position:absolute; left:calc(50% - 55px); top:177px; width:110px; height:12px; border-radius:50%; background:radial-gradient(ellipse,#0004,transparent 70%); animation:tea-welcome-shadow var(--tea-arrival) both; }
+.tea-welcome.welcome-paused * { animation-play-state:paused !important; }
+@keyframes tea-welcome-approach { 0% { transform:translateY(-55px) scale(.12); opacity:0; filter:blur(1px); } 9% { opacity:1; } 25% { transform:translateY(-42px) scale(.23); } 50% { transform:translateY(-20px) scale(.48); } 75% { transform:translateY(5px) scale(.78); filter:blur(0); } 92% { transform:translateY(13px) scale(1.025); } 100% { transform:translateY(15px) scale(1); opacity:1; filter:blur(0); } }
+@keyframes tea-welcome-steps { from { transform:translateY(1px) rotate(-3deg); } to { transform:translateY(-6px) rotate(3deg); } }
+@keyframes tea-welcome-settle { 0% { transform:rotate(-5deg); } 45% { transform:rotate(4deg); } 75% { transform:rotate(-2deg); } 100% { transform:rotate(0); } }
+@keyframes tea-welcome-steam { 0% { opacity:0; transform:translate(0,5px) scale(.7); } 30% { opacity:.5; } 75% { opacity:.15; transform:translate(4px,-16px) scale(1.05); } 100% { opacity:0; transform:translate(-2px,-23px) scale(1.15); } }
+@keyframes tea-welcome-message { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+@keyframes tea-welcome-shadow { from { opacity:0; transform:scale(.1); } to { opacity:1; transform:scale(1); } }

@@ -4,7 +4,7 @@
   const cat = document.createElement('button');
   cat.type = 'button'; cat.className = 'library-kitten';
   cat.setAttribute('aria-label','Pomazi Mayu; zadrži za maženje');
-  cat.innerHTML = '<img src="./assets/maya.webp" alt="" width="44" height="44" /><span class="maya-hearts" aria-hidden="true"><i>♥</i><i>♥</i><i>♥</i></span>';
+  cat.innerHTML = '<img src="./assets/maya.webp" alt="" width="44" height="44" /><span class="css-maya-wrap" aria-hidden="true"><span class="css-cat"><span class="css-cat-shadow"></span><span class="css-cat-tail"></span><span class="css-cat-body"></span><span class="css-cat-head"><span class="css-cat-ears"></span><span class="css-cat-ears second"></span><span class="css-cat-eyes"></span><span class="css-cat-nose"></span></span><span class="css-cat-paws"></span></span></span><span class="maya-hearts" aria-hidden="true"><i>♥</i><i>♥</i><i>♥</i></span>';
   let timer, expiry, holdTimer;
   let running = false, showing = false, pressing = false, ignoreClick = false;
   let pressOrigin;
@@ -58,6 +58,8 @@
   }
   function appear() {
     if (document.hidden || window.studySettings?.get().mayaFrequency === 0) return;
+    if (Math.random()<.35) cat.classList.add('css-maya');
+    else cat.classList.remove('css-maya');
     if (!place()) return schedule();
     showing = true;
     expiry = setTimeout(() => runAway(),14000);

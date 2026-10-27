@@ -1,0 +1,35 @@
+.app-stardust { position:fixed; inset:0; pointer-events:none; z-index:21; overflow:hidden; color:var(--accent); contain:strict; }
+.ambient-mote { position:absolute; width:var(--mote-size,8px); height:var(--mote-size,8px); opacity:0; animation:ambient-mote-drift var(--mote-time,11s) var(--mote-delay,0s) ease-in-out infinite; }
+.ambient-mote svg { display:block; width:100%; height:100%; fill:none; stroke:currentColor; stroke-width:1.1; }
+.ambient-mote.is-heart:nth-child(2n) svg { fill:currentColor; stroke-width:.6; }
+.ambient-mote[data-covered=true] { visibility:hidden; }
+@keyframes ambient-mote-drift { 0%,100% { opacity:.05; transform:translate(0,5px) rotate(-8deg) scale(.8); } 45% { opacity:var(--mote-alpha,.3); transform:translate(4px,-9px) rotate(10deg) scale(1); } 75% { opacity:.12; transform:translate(-3px,-17px) rotate(-4deg) scale(.85); } }
+body:has(dialog[open]) .app-stardust { opacity:0; }
+.css-maya-wrap { display:none; position:absolute; inset:0; }
+.css-cat { position:relative; display:block; width:160px; height:100px; transform:scale(var(--cat-scale,1)); transform-origin:0 0; }
+.css-cat span { position:absolute; display:block; }
+.css-cat-body { left:16px; bottom:10px; width:104px; height:64px; background:linear-gradient(130deg,#262b2b,#121717); border-radius:65px 65px 15px 12px; transform-origin:bottom right; animation:css-cat-breathe 3s ease-in-out infinite; box-shadow:inset 0 2px 0 #414b4850; }
+.css-cat-head { right:7px; bottom:10px; width:58px; height:48px; border-radius:26px 27px 23px 23px; background:linear-gradient(130deg,#282e2c,#111715); z-index:3; }
+.css-cat-ears { left:6px; top:-11px; width:15px; height:23px; background:#252c29; clip-path:polygon(0 0,100% 42%,85% 100%,10% 100%); transform:rotate(-8deg); }
+.css-cat-ears::after { content:''; position:absolute; inset:5px 4px 4px; background:#4a4543; clip-path:polygon(0 0,100% 50%,90% 100%,10% 100%); }
+.css-cat-ears.second { left:auto; right:5px; transform:scaleX(-1) rotate(-8deg); }
+.css-cat-eyes { top:17px; left:10px; width:12px; height:7px; border-radius:60% 60% 45% 45%; background:#8eb88a; box-shadow:25px 0 #8eb88a; animation:css-cat-blink 6s infinite; }
+.css-cat-eyes::before,.css-cat-eyes::after { content:''; position:absolute; top:0; left:5px; width:2px; height:7px; border-radius:50%; background:#07110b; }
+.css-cat-eyes::after { left:30px; }
+.css-cat-nose { width:6px; height:4px; top:29px; left:26px; border-radius:40% 40% 60% 60%; background:#080c0a; }
+.css-cat-nose::after { content:''; position:absolute; top:4px; left:2px; width:2px; height:4px; background:#414b4455; }
+.css-cat-tail { width:56px; height:17px; bottom:10px; left:-14px; border-radius:17px 0 0 17px; background:#141b18; transform-origin:right center; animation:css-cat-tail 5s ease-in-out infinite; }
+.css-cat-paws { width:18px; height:11px; bottom:7px; left:34px; background:#1a221e; border-radius:10px; box-shadow:30px 0 #1a221e; z-index:4; }
+.css-cat-shadow { width:151px; height:12px; bottom:2px; left:0; border-radius:50%; background:#0003; filter:blur(2px); }
+.css-cat.is-sleepy .css-cat-eyes { height:5px; top:18px; background:transparent; border-bottom:2px solid #8eb88a; border-radius:0 0 50% 50%; box-shadow:none; animation:none; }
+.css-cat.is-sleepy .css-cat-eyes::before { top:0; left:25px; width:12px; height:5px; border-bottom:2px solid #8eb88a; background:transparent; border-radius:0 0 50% 50%; }
+.css-cat.is-sleepy .css-cat-eyes::after { display:none; }
+.library-kitten.css-maya > img { display:none; }
+.library-kitten.css-maya .css-maya-wrap { display:block; }
+.library-kitten .css-cat { --cat-scale:.27; left:1px; top:12px; }
+.library-kitten.css-maya .css-maya-wrap { animation:maya-idle-hop .9s ease-in-out infinite; }
+.library-kitten.css-maya.scurry .css-maya-wrap { animation:maya-running-hop .17s ease-in-out infinite; }
+.library-kitten.css-maya.hugging .css-maya-wrap { animation:maya-happy-hop .25s ease-in-out infinite; }
+@keyframes css-cat-breathe { 0%,100% { transform:scale(1,.97); } 50% { transform:scale(.96,1.04); } }
+@keyframes css-cat-blink { 0%,43%,47%,100% { transform:scaleY(1); } 45% { transform:scaleY(.1); } }
+@keyframes css-cat-tail { 0%,70%,100% { transform:rotate(0); } 78% { transform:rotate(-7deg); } 86% { transform:rotate(3deg); } }
