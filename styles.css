@@ -661,3 +661,22 @@ html { scrollbar-gutter:stable; }
 @media(min-width:620px) { .subject-groups { grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; } .combined-group { grid-column:1/-1; } }
 
 @media(max-height:500px) { .mix-preview { padding:12px 18px; } .mix-preview-levels { gap:4px; } .mix-preview-layer > div:first-child { font-size:11px; line-height:14px; } }
+
+/* A gentle palette for every step of learning. */
+.bottom-nav { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.nav-item { min-width:0; font-size:11px; }
+.score-lavender { --score-color:color-mix(in srgb,#b8a4d9 80%,var(--accent)); }
+.score-honey { --score-color:color-mix(in srgb,#d5b875 80%,var(--accent)); }
+.score-sage { --score-color:color-mix(in srgb,#adc39a 80%,var(--accent)); }
+.score-mint { --score-color:color-mix(in srgb,#88cbb8 80%,var(--accent)); }
+.history-score[class*="score-"], .big-score[class*="score-"], .subject-stat span[class*="score-"] { color:var(--score-color); background:color-mix(in srgb,var(--score-color) 12%,var(--surface)); border-radius:16px; padding:8px 12px; }
+.big-score { width:fit-content; margin:18px auto; }
+.ongoing-card { padding:20px; border:1px solid var(--line); background:var(--surface); border-radius:22px; margin-bottom:18px; }
+.ongoing-card { border-color:color-mix(in srgb,var(--accent) 50%,var(--line)); }
+.ongoing-card h2 { font-size:18px; margin:10px 0; }
+.ongoing-card p { color:var(--muted); font-size:12px; line-height:1.6; }
+.ongoing-card small { display:block; color:var(--muted); margin-top:12px; }
+.ongoing-actions { display:flex; gap:10px; margin-top:14px; }
+.ongoing-card progress { width:100%; height:8px; accent-color:var(--accent); }
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+#pauseSessionButton { margin-bottom:12px; }

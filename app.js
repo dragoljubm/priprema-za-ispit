@@ -1,6 +1,7 @@
 (() => {
   'use strict';
 
+  const ONGOING_KEY = 'study-buddy-ongoing-v1';
   const STORAGE_KEY = 'study-buddy-history-v1';
   const app = document.getElementById('app');
   const bottomNav = document.getElementById('bottomNav');
@@ -101,6 +102,54 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
   }
 
+  function saveOngoing() {
+    if (!activeSession) return;
+    try { localStorage.setItem(ONGOING_KEY, JSON.stringify({version:1, session:activeSession})); }
+    catch { showToast('Test nije sačuvan. Skladište uređaja nije dostupno.'); }
+  }
+
+  function loadOngoing() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(ONGOING_KEY) || 'null');
+      const s = saved?.session;
+      if (saved?.version !== 1 || !s || typeof s.id !== 'string' || typeof s.subjectName !== 'string' ||
+          !Array.isArray(s.questions) || !s.questions.length || s.questions.length > 5000 ||
+          !Number.isInteger(s.index) || s.index < 0 || s.index >= s.questions.length ||
+          !Array.isArray(s.responses) || !Array.isArray(s.mistakes) ||
+          !Number.isInteger(s.answered) || s.answered < 0 || s.answered > s.questions.length ||
+          !Number.isInteger(s.correct) || s.correct < 0 || s.correct > s.answered ||
+          !s.questions.every(q => q && typeof q.question === 'string' &&
+            (q.type === 'recall' ? typeof q.answer === 'string' : q.type === 'choice' &&
+              Array.isArray(q.answers) && q.answers.every(a => typeof a === 'string') &&
+              Number.isInteger(q.correctAnswer) && q.correctAnswer >= 0 && q.correctAnswer < q.answers.length))) return null;
+      const q = s.questions[s.index];
+      if (s.selected !== null && (q.type === 'recall' ? typeof s.selected !== 'boolean' :
+        !Number.isInteger(s.selected) || s.selected < 0 || s.selected >= q.answers.length)) return null;
+      return s;
+    } catch { return null; }
+  }
+
+  function clearOngoing() {
+    try { localStorage.setItem(ONGOING_KEY, 'null'); }
+    catch { showToast('Sačuvani test nije moguće ukloniti.'); }
+  }
+
+  function pauseSession() {
+    saveOngoing();
+    activeSession = null;
+    setRoute('home');
+  }
+
+  function resumeSession() {
+    activeSession = loadOngoing();
+    if (activeSession) setRoute('quiz');
+    else { showToast('Sačuvani test nije dostupan.'); renderHome(); }
+  }
+
+  function scoreClass(score) {
+    return score >= 80 ? 'score-mint' : score >= 60 ? 'score-sage' : score >= 40 ? 'score-honey' : 'score-lavender';
+  }
+
   function showToast(message) {
     toastEl.textContent = message;
     toastEl.classList.add('show');
@@ -154,6 +203,7 @@
 
   function renderHome() {
     setChrome({ nav: true, back: false });
+    const ongoing = loadOngoing();
     const formats = [
       {id:'all',label:'Sva pitanja'},
       {id:'recall',label:'Pitanja bez ponuđenih odgovora'},
@@ -176,6 +226,7 @@
         <div class="scene-cat-spot cat-spot" data-cat-spot></div>
       </div>
       <div class="section-heading"><h1 class="screen-title">Testovi</h1></div>
+      ${ongoing ? `<section class="ongoing-card"><span class="eyebrow">PAUZIRANO</span><h2>${escapeHtml(displaySubjectName(ongoing.subjectName))}</h2><p>Pitanje ${ongoing.index + 1} od ${ongoing.questions.length} · ${ongoing.answered} odgovorenih</p><progress value="${ongoing.answered}" max="${ongoing.questions.length}" aria-label="Napredak testa"></progress><div class="ongoing-actions"><button class="primary-button" id="resumeSession" type="button">Nastavi test</button><button class="secondary-button" id="discardSession" type="button">Odbaci</button></div></section>` : ''}
       <button class="subject-card simulation-card" id="simulationButton" type="button">
         <span class="subject-bubble" aria-hidden="true"></span><div class="subject-copy"><div class="subject-name">Simulacija ispita</div></div><div class="chevron">${uiIcon('chevron-right')}</div>
       </button>
@@ -183,6 +234,8 @@
 
     `;
 
+    document.getElementById('resumeSession')?.addEventListener('click', resumeSession);
+    document.getElementById('discardSession')?.addEventListener('click', () => { clearOngoing(); renderHome(); });
     document.getElementById('simulationButton').addEventListener('click', startSimulation);
     app.querySelectorAll('[data-subject-id]').forEach((button) => {
       button.addEventListener('click', () => {
@@ -300,6 +353,7 @@
   }
 
   function renderQuiz(preservePosition = false) {
+    saveOngoing();
     const scrollTop = window.scrollY || 0;
     const focused = document.activeElement;
     const focusSelector = focused?.id === 'revealButton' ? '.revealed-answer'
@@ -362,6 +416,7 @@
             <div class="accuracy-value">${s.correct} / ${s.answered} · ${s.answered ? accuracy + '%' : '—'}</div>
           </div>
         </div>
+        <button class="secondary-button full" id="pauseSessionButton" type="button">Sačuvaj i izađi</button>
         <button class="danger-button full" id="endSessionButton" type="button">Završi test</button>
       </section>
     `;
@@ -376,6 +431,7 @@
     document.getElementById('rateWrong')?.addEventListener('click', () => rateAnswer(false));
     document.getElementById('confirmButton')?.addEventListener('click', confirmAnswer);
     document.getElementById('nextButton')?.addEventListener('click', nextQuestion);
+    document.getElementById('pauseSessionButton').addEventListener('click', pauseSession);
     document.getElementById('endSessionButton').addEventListener('click', requestSessionExit);
     if (preservePosition) {
       if (focusSelector) app.querySelector?.(focusSelector)?.focus({preventScroll:true});
@@ -452,6 +508,7 @@
     try { saveHistory(history.slice(0, 250)); }
     catch { showToast('Rezultat nije sačuvan. Skladište uređaja nije dostupno.'); }
     lastResult = record;
+    clearOngoing();
     activeSession = null;
     setRoute('result',{replace:true});
   }
@@ -466,7 +523,7 @@
         <img class="result-bears" src="./assets/bears.webp" alt="" width="120" height="98" />
         <div class="eyebrow">${r.completed ? 'Vežbanje završeno' : 'Vežbanje prekinuto'}</div>
         <h1>${escapeHtml(r.subjectName)}</h1>
-        <div class="big-score">${r.answered ? r.accuracy + '%' : '—'}</div>
+        <div class="big-score${r.answered ? ' ' + scoreClass(r.accuracy) : ''}">${r.answered ? r.accuracy + '%' : '—'}</div>
         <div class="score-sub">${r.correct} / ${r.answered} tačno</div>
 
         <div class="stats-grid">
@@ -526,7 +583,7 @@
                 <div class="history-subject">${escapeHtml(displaySubjectName(item.subjectName))}</div>
                 <div class="history-date">${escapeHtml(formatDate(item.endedAt))}</div>
               </div>
-              <div class="history-score">${item.answered ? item.accuracy + '%' : '—'}</div>
+              <div class="history-score ${item.answered ? scoreClass(item.accuracy) : ''}">${item.answered ? item.accuracy + '%' : '—'}</div>
             </div>
             <div class="history-bottom">
               <span>${item.correct}/${item.answered} tačno</span>
@@ -862,6 +919,7 @@
   }
 
   exitDialog.addEventListener('close', () => {
+    if (exitDialog.returnValue === 'pause' && route === 'quiz' && activeSession) return pauseSession();
     if (exitDialog.returnValue === 'confirm' && route === 'quiz' && activeSession) finishSession(false);
   });
 
@@ -876,6 +934,9 @@
     return false;
   }});
   navigation.start({route:'home',detailSessionId:null,detailReturnRoute:'history',resultId:null,scrollY:0});
+
+  window.addEventListener('pagehide', saveOngoing);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveOngoing(); });
 
   async function init() {
     try {

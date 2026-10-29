@@ -1,11 +1,11 @@
 (() => {
   'use strict';
-  const key = 'study-buddy-maya-tea-2026-10-27';
+  const key = 'study-buddy-maya-update-2026-10-29';
   const dialog = document.getElementById('mayaWelcome');
   if (!dialog) return;
   const preview = new URLSearchParams(window.location.search).get('welcome') === 'preview';
   try { if (!preview && localStorage.getItem(key) === 'seen') return; } catch {}
-  const arrivalMs=4300,textMs=800,readingMs=1000;
+  const arrivalMs=250,textMs=200,readingMs=700;
   dialog.style.setProperty('--tea-arrival',`${arrivalMs}ms`);
   dialog.style.setProperty('--tea-text-time',`${textMs}ms`);
   let shown=false,ready=false,remaining=arrivalMs+textMs+readingMs,deadline=0,unlockTimer;

@@ -24,3 +24,14 @@
 @keyframes tea-welcome-steam { 0% { opacity:0; transform:translate(0,5px) scale(.7); } 30% { opacity:.5; } 75% { opacity:.15; transform:translate(4px,-16px) scale(1.05); } 100% { opacity:0; transform:translate(-2px,-23px) scale(1.15); } }
 @keyframes tea-welcome-message { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
 @keyframes tea-welcome-shadow { from { opacity:0; transform:scale(.1); } to { opacity:1; transform:scale(1); } }
+
+.update-welcome { padding:28px 26px; animation:maya-update-flash 250ms ease-out both; }
+.update-welcome:focus { outline:none; }
+.update-welcome-scene { display:grid; place-items:center; height:132px; }
+.update-welcome-scene img { image-rendering:pixelated; animation:maya-update-pop var(--tea-arrival,250ms) ease-out both; }
+.update-welcome .welcome-message { margin:12px 0 0; animation:tea-welcome-message var(--tea-text-time,200ms) var(--tea-arrival,250ms) both; }
+.update-welcome[data-ready=true] { cursor:pointer; }
+.update-welcome.welcome-paused,.update-welcome.welcome-paused * { animation-play-state:paused !important; }
+@keyframes maya-update-pop { from { opacity:0; transform:scale(.7); } to { opacity:1; transform:scale(1); } }
+@keyframes maya-update-flash { from { opacity:0; box-shadow:0 0 40px color-mix(in srgb,var(--accent) 28%,transparent); } to { opacity:1; } }
+@media(prefers-reduced-motion:reduce) { .update-welcome,.update-welcome * { animation:none !important; } }
