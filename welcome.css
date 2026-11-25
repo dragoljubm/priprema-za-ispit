@@ -35,3 +35,15 @@
 @keyframes maya-update-pop { from { opacity:0; transform:scale(.7); } to { opacity:1; transform:scale(1); } }
 @keyframes maya-update-flash { from { opacity:0; box-shadow:0 0 40px color-mix(in srgb,var(--accent) 28%,transparent); } to { opacity:1; } }
 @media(prefers-reduced-motion:reduce) { .update-welcome,.update-welcome * { animation:none !important; } }
+
+#mayaHistoryButton { margin-inline-start:auto; flex:none; }
+.maya-message-actions { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:16px; }
+.update-welcome:has(.maya-video:not([hidden])) { width:min(560px,calc(100% - 24px)); max-height:calc(100dvh - 24px); overflow:auto; }
+.maya-video { margin-top:14px; }
+.maya-video iframe { display:block; width:100%; aspect-ratio:16/9; border:0; border-radius:8px; background:#000; }
+.maya-video a { display:inline-block; margin-top:10px; color:var(--accent); }
+.maya-history ul { list-style:none; padding:0; max-height:50dvh; overflow:auto; }
+.maya-history li + li { margin-top:8px; }
+.maya-history li button { width:100%; text-align:start; }
+.maya-history time { display:block; margin-top:4px; font-size:.8em; }
+#mayaPlay[hidden] { display:none; }

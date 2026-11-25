@@ -929,6 +929,8 @@
     const welcome = document.getElementById('mayaWelcome');
     if (welcome?.open) { window.studyWelcome?.dismiss(); return true; }
     if (previewTrigger) { closeMixPreview(); return true; }
+    const mayaHistory = document.getElementById('mayaHistory');
+    if (mayaHistory?.open) { mayaHistory.close(); return true; }
     if (exitDialog.open) { exitDialog.close('cancel'); return true; }
     if (route === 'quiz' && activeSession) { requestSessionExit(); return true; }
     return false;
