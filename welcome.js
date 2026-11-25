@@ -2,7 +2,7 @@
   'use strict';
   // Keep previous entries and put new messages first. Each ID is permanent.
   const messages = [
-    { id: 'video-2026-11-25', date: '2026-11-25', text: 'Imam video za tebe! :3', driveId: '15BOb7xQvoWfrLGSb9U8Tm-WVX0nl7EoE' }
+    { id: 'video-2026-11-25', date: '2026-11-25', text: 'Imam video za tebe! :3', driveId: '15BOb7xQvoWfrLGSb9U8Tm-WVX0nl7EoE', portrait: true }
   ];
   const storageKey = message => 'study-buddy-maya:' + message.id;
   function seen(message) {
@@ -129,10 +129,11 @@
     frame.src = 'https://drive.google.com/file/d/' + current.driveId + '/preview';
     const player = document.createElement('div');
     player.className = 'maya-player';
+    player.classList.toggle('maya-player-portrait', current.portrait === true);
     player.append(frame);
     video.prepend(player);
     video.hidden = false;
-    frame.focus();
+    close.focus({ preventScroll: true });
     play.hidden = true;
   });
   dialog.addEventListener('cancel',event=>{event.preventDefault();dismiss();});

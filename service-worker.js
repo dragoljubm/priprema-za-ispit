@@ -1,5 +1,5 @@
 const CACHE_PREFIX = `study-buddy:${self.registration.scope}:`;
-const CACHE = `${CACHE_PREFIX}v69`;
+const CACHE = `${CACHE_PREFIX}v70`;
 const APP_SHELL = [
   './',
   './index.html',
@@ -21,8 +21,8 @@ const APP_SHELL = [
   './navigation.js?v=65',
   './app.js',
   './app.js?v=67',
-  './welcome.js?v=69',
-  './welcome.css?v=69',
+  './welcome.js?v=70',
+  './welcome.css?v=70',
   './assets/teacup-strawheart.gif',
   './library.js?v=61',
   './atmosphere.js?v=59',

@@ -44,6 +44,13 @@
   padding-inline:clamp(12px, 4vw, 26px);
   overflow:auto;
 }
+.update-welcome:has(.maya-player-portrait) {
+  width:min(420px, calc(100% - 24px));
+  padding-block:16px;
+}
+.update-welcome:has(.maya-player-portrait) .update-welcome-scene { display:none; }
+.update-welcome:has(.maya-player-portrait) .welcome-message { margin-block:0; }
+.update-welcome:has(.maya-player-portrait) .maya-message-actions { margin-top:8px; }
 .maya-video { margin-top:14px; }
 .maya-player {
   position:relative;
@@ -53,6 +60,10 @@
   border-radius:8px;
   overflow:hidden;
   background:#000;
+}
+.maya-player.maya-player-portrait {
+  width:min(100%, 320px, 34dvh);
+  aspect-ratio:9 / 16;
 }
 .maya-player iframe {
   position:absolute;
