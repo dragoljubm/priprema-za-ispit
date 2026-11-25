@@ -2,7 +2,7 @@
   'use strict';
   // Keep previous entries and put new messages first. Each ID is permanent.
   const messages = [
-    { id: 'video-2026-11-25', date: '2026-11-25', text: 'Imam video za tebe! :3', driveId: '15BOb7xQvoWfrLGSb9U8Tm-WVX0nl7EoE', portrait: true }
+    { id: 'video-2026-11-25', date: '2026-11-25', text: 'Imam video za tebe! :3', driveId: '15BOb7xQvoWfrLGSb9U8Tm-WVX0nl7EoE' }
   ];
   const storageKey = message => 'study-buddy-maya:' + message.id;
   function seen(message) {
@@ -17,8 +17,6 @@
   const historyButton = document.getElementById('mayaHistoryButton');
   const play = document.getElementById('mayaPlay');
   const close = document.getElementById('mayaClose');
-  const video = document.getElementById('mayaVideo');
-  const driveLink = document.getElementById('mayaDriveLink');
   const pending = preview ? messages[0] : messages.find(message => !seen(message));
   let current;
   let replaying;
@@ -31,7 +29,7 @@
     unlockTimer=setTimeout(()=>{
       ready=true;
       dialog.dataset.ready='true';
-      play.disabled = close.disabled = false;
+      close.disabled = false;
       try { if (!preview) localStorage.setItem(storageKey(current), 'seen'); } catch {}
       document.removeEventListener('visibilitychange',visibility);
     },remaining);
@@ -47,10 +45,10 @@
     replaying = replay;
     messageText.textContent = message.text;
     play.hidden = !message.driveId;
-    if (message.driveId) driveLink.href = 'https://drive.google.com/file/d/' + message.driveId + '/view';
+    if (message.driveId) play.href = 'https://drive.google.com/file/d/' + message.driveId + '/view';
     ready = false;
     remaining = arrivalMs + textMs + readingMs;
-    play.disabled = close.disabled = true;
+    close.disabled = true;
     dialog.dataset.ready = 'false';
     dialog.showModal();
     document.addEventListener('visibilitychange', visibility);
@@ -62,8 +60,6 @@
     const rect = dialog.getBoundingClientRect();
     const x = rect.left + rect.width/2, y = rect.top + rect.height/2;
     dialog.close();
-    video.querySelector('.maya-player')?.remove();
-    video.hidden = true;
     if (replaying) history.showModal();
     const petals = document.createElement('div');
     petals.className = 'welcome-petals';
@@ -122,20 +118,6 @@
   historyButton.addEventListener('click', () => history.showModal());
   close.addEventListener('click', dismiss);
   dialog.addEventListener('click', event => { if (event.target === dialog) dismiss(); });
-  play.addEventListener('click', () => {
-    const frame = document.createElement('iframe');
-    frame.title = 'Video sa Google Drive-a';
-    frame.allowFullscreen = true;
-    frame.src = 'https://drive.google.com/file/d/' + current.driveId + '/preview';
-    const player = document.createElement('div');
-    player.className = 'maya-player';
-    player.classList.toggle('maya-player-portrait', current.portrait === true);
-    player.append(frame);
-    video.prepend(player);
-    video.hidden = false;
-    close.focus({ preventScroll: true });
-    play.hidden = true;
-  });
   dialog.addEventListener('cancel',event=>{event.preventDefault();dismiss();});
   if (pending) document.addEventListener('visibilitychange',visibility);
   greet();
