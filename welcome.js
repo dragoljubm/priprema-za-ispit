@@ -62,7 +62,7 @@
     const rect = dialog.getBoundingClientRect();
     const x = rect.left + rect.width/2, y = rect.top + rect.height/2;
     dialog.close();
-    video.querySelector('iframe')?.remove();
+    video.querySelector('.maya-player')?.remove();
     video.hidden = true;
     if (replaying) history.showModal();
     const petals = document.createElement('div');
@@ -127,7 +127,10 @@
     frame.title = 'Video sa Google Drive-a';
     frame.allowFullscreen = true;
     frame.src = 'https://drive.google.com/file/d/' + current.driveId + '/preview';
-    video.prepend(frame);
+    const player = document.createElement('div');
+    player.className = 'maya-player';
+    player.append(frame);
+    video.prepend(player);
     video.hidden = false;
     frame.focus();
     play.hidden = true;
